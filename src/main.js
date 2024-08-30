@@ -1,25 +1,14 @@
 const {app,BrowserWindow,ipcMain,dialog,Menu,nativeTheme,shell} = require('electron')
-const {autoUpdater} = require("electron-updater");
-const log = require('electron-log');
+const { autoUpdater } = require("electron-updater")
 const path = require('node:path')
 const fs = require('node:fs')
 
 
 
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
-log.info('App starting...');
-
 
 let mainWindow
 let filepath = undefined
 // const cssProps = {}
-
-
-function sendStatusToWindow(text) {
-  log.info(text);
-  win.webContents.send('message', text);
-}
 
 // function to create main window
 function createMainWindow(){
@@ -28,43 +17,12 @@ function createMainWindow(){
       preload: path.join(__dirname, 'preload.js')
     }
   })
-
-
-  mainWindow.on('closed', () => {
-    win = null;
-  });
-
-  mainWindow.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
+  mainWindow.loadFile('src/index.html')
 
   // mainWindow.once('ready-to-show',function(){
   //   autoUpdater.checkForUpdatesAndNotify()
   // })
 }
-
-
-autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
-})
-autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available.');
-})
-autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.');
-})
-autoUpdater.on('error', (err) => {
-  log.error('Error in auto-updater:', err);
-  sendStatusToWindow('Error in auto-updater. ' + err);
-});
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  sendStatusToWindow(log_message);
-})
-autoUpdater.on('update-downloaded', (info) => {
-  sendStatusToWindow('Update downloaded');
-});
-
 
 // shell.openExternal('https://github.com')
 
