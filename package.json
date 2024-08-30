@@ -1,0 +1,52 @@
+{
+  "name": "Text-Editor",
+  "version": "1.0.1",
+  "description": "Text Editor",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "reload": "nodemon --exec electron .",
+    "dist": "electron-builder",
+    "publish": "electron-builder -p always"
+  },
+  "author": "Vipul",
+  "license": "ISC",
+  "build": {
+    "appId": "com.github.20vipul.text_editor",
+    "files": [
+      "src/**/*",
+      "photon/**/*",
+      "app_icon/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "icon": "app_icon/notepad.png"
+    },
+    "nsis": {
+      "createDesktopShortcut": true
+    }
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "20vipul",
+    "repo": "Text-editor",
+    "releaseType": "draft"
+  },
+  "devDependencies": {
+    "electron": "^30.0.3",
+    "electron-builder": "^24.13.3",
+    "electron-updater": "^6.2.1"
+  },
+  "dependencies": {
+    "electron-log": "^5.1.7",
+    "nodemon": "^3.1.0"
+  }
+}
